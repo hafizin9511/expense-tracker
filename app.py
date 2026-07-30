@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 import pandas as pd
+import uuid
 from datetime import datetime
 
 def load_expenses():
@@ -66,6 +67,7 @@ with st.sidebar:
 
 if add_button:
     expense = {
+        "id": str(uuid.uuid4()),
         "amount": amount,
         "category": category,
         "description": description,
@@ -113,7 +115,7 @@ for index, expense in enumerate(filtered_expenses):
                 "✏️ Edit",
                 key=f"edit_{index}"
             ):
-                st.session_state.editing = index
+                st.session_state.editing = expense["id"]
                 st.rerun()
         
         with delete_col:
@@ -121,7 +123,12 @@ for index, expense in enumerate(filtered_expenses):
                 "🗑️ Delete",
                 key=f"delete_{index}"
             ):
-                st.session_state.expenses.pop(index)
+                expense_id = expense["id"]
+
+                st.session_state.expenses = [
+                    e for e in st.session_state.expenses
+                    if e["id"] != expense_id
+                ]
                 save_expenses(st.session_state.expenses)
                 st.rerun()
 
@@ -129,8 +136,12 @@ for index, expense in enumerate(filtered_expenses):
 
 if "editing" in st.session_state:
 
-    index = st.session_state.editing
-    expense = st.session_state.expenses[index]
+    expense_id = st.session_state.editing
+
+    expense = next(
+        e for e in st.session_state.expenses
+        if e["id"] == expense_id
+    )
 
     st.subheader("✏️ Edit Expense")
 
