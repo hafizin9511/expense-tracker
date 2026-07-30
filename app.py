@@ -2,7 +2,8 @@ import streamlit as st
 
 st.title("💰 Expense Tracker")
 
-expenses = []
+if "expenses" not in st.session_state:
+    st.session_state.expenses = []
 
 amount = st.number_input("Amount", min_value=0.0)
 
@@ -20,8 +21,8 @@ if st.button("Add Expense"):
         "date": str(date)
     }
 
-    expenses.append(expense)
+    st.session_state.expenses.append(expense)
 
     st.success("Expense added!")
 
-st.write(expenses)
+st.write(st.session_state.expenses)
