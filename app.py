@@ -56,7 +56,7 @@ for index, expense in enumerate(st.session_state.expenses):
             st.write(expense["category"])
 
         with col3:
-            st.write(f"${expense['amount']:.2f}")
+            st.write(f"RM {expense['amount']:.2f}")
 
         st.write(expense["description"])
 
@@ -135,7 +135,7 @@ col1, col2 = st.columns(2)
 with col1:
     st.metric(
         "Total Spent",
-        f"${total:.2f}"
+        f"RM {total:.2f}"
     )
 
 with col2:
@@ -143,8 +143,3 @@ with col2:
         "Number of Expenses",
         expense_count
     )
-
-st.metric(
-    "Total Spent",
-    f"RM {total:.2f}"
-)
