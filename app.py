@@ -42,7 +42,8 @@ if st.button("Add Expense"):
 
 st.subheader("📋 Your Expenses")
 
-for expense in st.session_state.expenses:
+for index, expense in enumerate(st.session_state.expenses):
+
     st.write(
         f"""
         **Date:** {expense['date']}  
@@ -51,6 +52,11 @@ for expense in st.session_state.expenses:
         **Amount:** RM {expense['amount']:.2f}
         """
     )
+
+    if st.button("🗑️ Delete", key=index):
+        st.session_state.expenses.pop(index)
+        save_expenses(st.session_state.expenses)
+        st.rerun()
 
 st.subheader("💰 Summary")
 
