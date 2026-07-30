@@ -1,5 +1,6 @@
 import streamlit as st
 import json
+import pandas as pd
 from datetime import datetime
 
 def load_expenses():
@@ -164,3 +165,19 @@ with col2:
         "Number of Expenses",
         expense_count
     )
+
+st.subheader("📊 Spending by Category")
+
+if st.session_state.expenses:
+
+    df = pd.DataFrame(st.session_state.expenses)
+
+    category_total = (
+        df.groupby("category")["amount"]
+        .sum()
+    )
+
+    st.bar_chart(category_total)
+
+else:
+    st.write("No data available for chart.")
