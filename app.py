@@ -48,6 +48,18 @@ for expense in st.session_state.expenses:
         **Date:** {expense['date']}  
         **Category:** {expense['category']}  
         **Description:** {expense['description']}  
-        **Amount:** ${expense['amount']:.2f}
+        **Amount:** RM {expense['amount']:.2f}
         """
     )
+
+st.subheader("💰 Summary")
+
+total = sum(
+    expense["amount"]
+    for expense in st.session_state.expenses
+)
+
+st.metric(
+    "Total Spent",
+    f"RM {total:.2f}"
+)
