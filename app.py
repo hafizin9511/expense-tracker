@@ -63,16 +63,21 @@ for index, expense in enumerate(st.session_state.expenses):
         edit_col, delete_col = st.columns(2)
 
         with edit_col:
-            st.button(
+            if st.button(
                 "✏️ Edit",
                 key=f"edit_{index}"
-            )
-
+            ):
+                st.session_state.editing = index
+                st.rerun()
+        
         with delete_col:
-            st.button(
+            if st.button(
                 "🗑️ Delete",
                 key=f"delete_{index}"
-            )
+            ):
+                st.session_state.expenses.pop(index)
+                save_expenses(st.session_state.expenses)
+                st.rerun()
 
         st.divider()
 
