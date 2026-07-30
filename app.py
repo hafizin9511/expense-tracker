@@ -41,26 +41,40 @@ if st.button("Add Expense"):
 
     st.success("Expense added!")
 
-st.subheader("📋 Your Expenses")
+st.subheader("📋 Expense History")
 
 for index, expense in enumerate(st.session_state.expenses):
 
-    st.write(
-        f"""
-        **Date:** {expense['date']}  
-        **Category:** {expense['category']}  
-        **Description:** {expense['description']}  
-        **Amount:** RM {expense['amount']:.2f}
-        """
-    )
+    with st.container():
 
-    if st.button("✏️ Edit", key=f"edit_{index}"):
-        st.session_state.editing = index
+        col1, col2, col3 = st.columns(3)
 
-    if st.button("🗑️ Delete", key=index):
-        st.session_state.expenses.pop(index)
-        save_expenses(st.session_state.expenses)
-        st.rerun()
+        with col1:
+            st.write(expense["date"])
+
+        with col2:
+            st.write(expense["category"])
+
+        with col3:
+            st.write(f"${expense['amount']:.2f}")
+
+        st.write(expense["description"])
+
+        edit_col, delete_col = st.columns(2)
+
+        with edit_col:
+            st.button(
+                "✏️ Edit",
+                key=f"edit_{index}"
+            )
+
+        with delete_col:
+            st.button(
+                "🗑️ Delete",
+                key=f"delete_{index}"
+            )
+
+        st.divider()
 
 if "editing" in st.session_state:
 
@@ -113,6 +127,22 @@ total = sum(
     expense["amount"]
     for expense in st.session_state.expenses
 )
+
+expense_count = len(st.session_state.expenses)
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.metric(
+        "Total Spent",
+        f"${total:.2f}"
+    )
+
+with col2:
+    st.metric(
+        "Number of Expenses",
+        expense_count
+    )
 
 st.metric(
     "Total Spent",
