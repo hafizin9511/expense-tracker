@@ -7,11 +7,6 @@ import pandas as pd
 import uuid
 from datetime import datetime
 
-if st.button("Reset Data"):
-    save_expenses([])
-    st.session_state.expenses = []
-    st.rerun()
-
 def load_expenses():
     try:
         with open("expenses.json", "r") as file:
@@ -190,7 +185,12 @@ if "editing" in st.session_state:
         st.success("Expense updated!")
 
         st.rerun()
-        
+
+if st.button("Reset Data"):
+    save_expenses([])
+    st.session_state.expenses = []
+    st.rerun()
+    
 st.subheader("💰 Summary")
 
 total = sum(
