@@ -25,4 +25,14 @@ if st.button("Add Expense"):
 
     st.success("Expense added!")
 
-st.write(st.session_state.expenses)
+st.subheader("📋 Your Expenses")
+
+for expense in st.session_state.expenses:
+    st.write(
+        f"""
+        **Date:** {expense['date']}  
+        **Category:** {expense['category']}  
+        **Description:** {expense['description']}  
+        **Amount:** ${expense['amount']:.2f}
+        """
+    )
