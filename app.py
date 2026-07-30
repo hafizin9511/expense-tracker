@@ -19,15 +19,31 @@ st.title("💰 Expense Tracker")
 if "expenses" not in st.session_state:
     st.session_state.expenses = load_expenses()
 
-amount = st.number_input("Amount", min_value=0.0)
+with st.sidebar:
+    st.header("➕ Add Expense")
 
-category = st.text_input("Category")
+    amount = st.number_input(
+        "Amount",
+        min_value=0.0
+    )
 
-description = st.text_input("Description")
+    category = st.text_input(
+        "Category"
+    )
 
-date = st.date_input("Date")
+    description = st.text_input(
+        "Description"
+    )
 
-if st.button("Add Expense"):
+    date = st.date_input(
+        "Date"
+    )
+
+    add_button = st.button(
+        "Add Expense"
+    )
+
+if add_button:
     expense = {
         "amount": amount,
         "category": category,
@@ -106,7 +122,7 @@ if "editing" in st.session_state:
     new_date = st.date_input(
         "Date",
         value=datetime.strptime(
-            expense["date"],
+            expense.get("date", str(datetime.today().date())),
             "%Y-%m-%d"
         )
     )
