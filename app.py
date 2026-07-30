@@ -44,6 +44,26 @@ with st.sidebar:
         "Add Expense"
     )
 
+    st.divider()
+
+    st.header("🔍 Filter")
+    
+    categories = [
+        "All"
+    ]
+    
+    categories += list(
+        set(
+            expense["category"]
+            for expense in st.session_state.expenses
+        )
+    )
+    
+    selected_category = st.selectbox(
+        "Category",
+        categories
+    )
+
 if add_button:
     expense = {
         "amount": amount,
@@ -60,7 +80,16 @@ if add_button:
 
 st.subheader("📋 Expense History")
 
-for index, expense in enumerate(st.session_state.expenses):
+filtered_expenses = st.session_state.expenses
+
+if selected_category != "All":
+    filtered_expenses = [
+        expense
+        for expense in st.session_state.expenses
+        if expense["category"] == selected_category
+    ]
+
+for index, expense in enumerate(filtered_expenses):
 
     with st.container():
 
