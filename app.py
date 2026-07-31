@@ -276,8 +276,12 @@ if expenses:
         category_total,
         names="category",
         values="amount",
-        title="Spending by Category",
-        hole=0.3
+        title="Spending by Category"
+    )
+
+    fig.update_traces(
+        textposition="inside",
+        textinfo="label+value"
     )
 
     st.plotly_chart(
