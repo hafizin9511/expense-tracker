@@ -281,7 +281,8 @@ if expenses:
 
     fig.update_traces(
         textposition="inside",
-        textinfo="label+value"
+        textinfo="label+value",
+        texttemplate="%{label}<br>RM %{value:.2f}"
     )
 
     st.plotly_chart(
