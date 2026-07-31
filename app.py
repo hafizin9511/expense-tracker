@@ -61,7 +61,7 @@ with st.sidebar:
 
     st.header("➕ Add Expense")
 
-    with st.form("expense_form", clear_on_submit=True):
+    with st.form("expense_form", clear_on_submit=True, enter_to_submit=False):
 
         amount = st.number_input(
             "Amount",
