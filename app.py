@@ -61,15 +61,22 @@ with st.sidebar:
 
     st.header("➕ Add Expense")
 
-    amount = st.number_input("Amount", min_value=0.0)
+    with st.form("expense_form", clear_on_submit=True):
 
-    category = st.text_input("Category")
+        amount = st.number_input(
+            "Amount",
+            min_value=0.0
+        )
 
-    description = st.text_input("Description")
+        category = st.text_input("Category")
 
-    date = st.date_input("Date")
+        description = st.text_input("Description")
 
-    if st.button("Add Expense"):
+        date = st.date_input("Date")
+
+        submitted = st.form_submit_button("Add Expense")
+
+    if submitted:
 
         if category.strip() == "":
             st.error("Please enter a category.")
@@ -87,6 +94,7 @@ with st.sidebar:
             ))
 
             conn.commit()
+            st.success("Expense added!")
             st.rerun()
 
     st.divider()
