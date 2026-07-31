@@ -132,40 +132,36 @@ else:
 
 st.subheader("📋 Expense History")
 
-for index, expense in enumerate(filtered_expenses):
+for expense in filtered_expenses:
 
-    with st.container():
+    with st.container(border=True):
 
-        c1, c2, c3 = st.columns(3)
+        col1, col2 = st.columns([4, 1])
 
-        c1.write(expense["date"])
-        c2.write(expense["category"])
-        c3.write(f"RM {expense['amount']:.2f}")
+        with col1:
+            st.markdown(f"### {expense['category']}")
+            st.caption(expense["date"])
+            st.write(expense["description"])
 
-        st.write(expense["description"])
+        with col2:
+            st.metric(
+                label="Amount",
+                value=f"RM {expense['amount']:.2f}"
+            )
 
         edit_col, delete_col = st.columns(2)
 
         with edit_col:
-
-            if st.button(
-                "✏️ Edit",
-                key=f"edit_{expense['id']}"
-            ):
+            if st.button("✏️ Edit", key=f"edit_{expense['id']}"):
                 st.session_state.editing = expense["id"]
                 st.rerun()
 
         with delete_col:
-
-            if st.button(
-                "🗑️ Delete",
-                key=f"delete_{expense['id']}"
-            ):
+            if st.button("🗑 Delete", key=f"delete_{expense['id']}"):
                 cursor.execute(
                     "DELETE FROM expenses WHERE id=?",
                     (expense["id"],)
                 )
-
                 conn.commit()
                 st.rerun()
 
