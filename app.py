@@ -1,7 +1,4 @@
 import streamlit as st
-import os
-
-st.write(os.listdir())
 import json
 import pandas as pd
 import uuid
@@ -185,11 +182,6 @@ if "editing" in st.session_state:
         st.success("Expense updated!")
 
         st.rerun()
-
-if st.button("Reset Data"):
-    save_expenses([])
-    st.session_state.expenses = []
-    st.rerun()
     
 st.subheader("💰 Summary")
 
