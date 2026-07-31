@@ -1,6 +1,7 @@
 import streamlit as st
 import sqlite3
 import pandas as pd
+import plotly.express as px
 import uuid
 from datetime import datetime
 
@@ -265,13 +266,24 @@ if expenses:
 
     df = pd.DataFrame(expenses)
 
-    chart = (
+    category_total = (
         df.groupby("category")["amount"]
         .sum()
+        .reset_index()
     )
 
-    st.bar_chart(chart)
+    fig = px.pie(
+        category_total,
+        names="category",
+        values="amount",
+        title="Spending by Category",
+        hole=0.3
+    )
+
+    st.plotly_chart(
+        fig,
+        use_container_width=True
+    )
 
 else:
-
     st.info("No expenses available.")
